@@ -1,66 +1,37 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
+import Home from './Home'
+import About from './About'
+import NotFound from './NotFound'
 
 function App() {
-    const [page, setPage] = useState('home');
-    const [theme, setTheme] = useState('default');
+    const [theme, setTheme] = useState('default')
 
-    const switchTheme = (newTheme) => {
-        setTheme(newTheme);
-    };
+    function switchTheme(newTheme) {
+        setTheme(newTheme)
+    }
 
     return (
         <div className={`app-container theme-${theme}`}>
-            <nav className="navbar">
-                <button onClick={() => setPage('home')}>Home</button>
-                <button onClick={() => setPage('about')}>About Me</button>
-            </nav>
-
-            <div className="theme-buttons">
-                <button onClick={() => switchTheme('default')}>Default Theme</button>
-                <button onClick={() => switchTheme('matrix')}>Matrix Theme</button>
-                <button onClick={() => switchTheme('space')}>Space Theme</button>
-            </div>
-
-            {page === 'home' && (
-                <section>
-                    <h1>Jarens Website</h1>
-                    <p>
-                        The current vision for the project here is a fun, user-friendly D&D Random Encounter Generator.
-                    </p>
-                    <div className="card">
-                        <p>
-                            My goal is that this site doesn&#39;t just make my life easier, but also works cleanly, looks interesting and isn&#39;t boring. I think I can make an interactive and reliable resource for unique encounters in D&D fun and useful.
-                        </p>
-                    </div>
-                </section>
-            )}
-
-            {page === 'about' && (
-                <section>
-                    <h1>About Jaren Nicholls</h1>
-                    <div className="card">
-                        <p>
-                            I&#39;m an enthusiastic programmer, gamer, and music lover. I&#39;m perpetually online, working on projects, gaming or exploring more fun things to be a nerd
-                            about. I&#39;ve always been fascinated by technology.
-                        </p>
-                        <p>
-                            A big part of my life right now revolves around tabletop RPGs. I&#39;m currently
-                            running two different D&D campaigns. Each one has its own storylines, monsters and challenges. I like stories about fantastical and epic adventures, which is what motivates me to
-                            design tools and story elements that improve the experience for me and my friends.
-                        </p>
-                        <p>
-                            <strong>Some things I&#39;m into:</strong><br/>
-                            &bull; Everything about Lord of the Rings. The new LotR-adjacent stuff they&#39;re shelling out for moneygrabs is garbage.<br />
-                            &bull; Experimenting with music production software, even though I&#39;m not that musically gifted.<br/>
-                            &bull; Gaming across a variety of genres. I like tabletop, strategy, story-based and platformer games the most.<br />
-                        </p>
-                    </div>
-                </section>
-            )}
-
+            <Router>
+                <nav className="navbar">
+                    <Link to="/">Home</Link>
+                    <Link to="/about">About Me</Link>
+                </nav>
+                <div className="theme-buttons">
+                    <button onClick={() => switchTheme('default')}>Default Theme</button>
+                    <button onClick={() => switchTheme('matrix')}>Matrix Theme</button>
+                    <button onClick={() => switchTheme('space')}>Space Theme</button>
+                </div>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </Router>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
